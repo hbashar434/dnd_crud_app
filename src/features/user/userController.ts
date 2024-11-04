@@ -9,6 +9,7 @@ import {
 } from './userModel';
 import { asyncHandler } from '../../utils/asyncHandler';
 import { ApiResponse } from '../../utils/ApiResponse';
+import { ApiError } from '../../utils/ApiError';
 
 // create a new user
 export const addUser = asyncHandler(async (req: Request, res: Response) => {
@@ -21,6 +22,9 @@ export const addUser = asyncHandler(async (req: Request, res: Response) => {
 // get all users
 export const fetchUsers = asyncHandler(async (req: Request, res: Response) => {
   const users = await getAllUsers();
+  if (users.length === 0) {
+    throw new ApiError(404, 'User not found');
+  }
   res.json(new ApiResponse(200, users, 'Users retrieved successfully'));
 });
 
@@ -41,5 +45,5 @@ export const modifyUser = asyncHandler(async (req: Request, res: Response) => {
 // delete user
 export const removeUser = asyncHandler(async (req: Request, res: Response) => {
   await deleteUser(Number(req.params.id));
-  res.status(204).json(new ApiResponse(204, null, 'User deleted successfully'));
+  res.json(new ApiResponse(204, null, 'User deleted successfully'));
 });

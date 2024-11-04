@@ -12,7 +12,7 @@ const PORT: number = parseInt(process.env.PORT as string, 10) || 8000;
 app.use(express.json());
 
 // user routes
-app.use('/api/users', userRoutes);
+app.use('/api/v1/users', userRoutes);
 
 // root route
 app.get('/', (req: Request, res: Response) => {

@@ -18,7 +18,7 @@ export const createUser = async (userData: User) => {
   const { firstName, lastName, displayName, email, dateOfBirth, phone } =
     userData;
   const query =
-    'INSERT INTO users (first_name, last_name, display_name, email, date_of_birth, phone) VALUES (?, ?, ?, ?, ?, ?)';
+    'INSERT INTO users (firstName, lastName, displayName, email, dateOfBirth, phone) VALUES (?, ?, ?, ?, ?, ?)';
   const values = [firstName, lastName, displayName, email, dateOfBirth, phone];
 
   const [result] = await pool.promise().query<ResultSetHeader>(query, values);
@@ -54,7 +54,7 @@ export const updateUser = async (
   const { firstName, lastName, displayName, email, dateOfBirth, phone } =
     userData;
   const query =
-    'UPDATE users SET first_name = ?, last_name = ?, display_name = ?, email = ?, date_of_birth = ?, phone = ? WHERE id = ?';
+    'UPDATE users SET firstName = ?, lastName = ?, displayName = ?, email = ?, dateOfBirth = ?, phone = ? WHERE id = ?';
   const values = [
     firstName,
     lastName,
