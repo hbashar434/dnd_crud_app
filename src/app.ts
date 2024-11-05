@@ -1,12 +1,30 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
-import userRoutes from './features/user/userRoutes';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { ApiError } from './utils/ApiError';
+import userRoutes from './features/user/userRoutes';
 
 dotenv.config();
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT as string, 10) || 8000;
+
+const whitelist = ['http://localhost:3000'];
+const corsOptions = {
+  origin: (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void
+  ) => {
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new ApiError(403, 'Not allowed by CORS'));
+    }
+  },
+};
+
+// CORS middleware
+app.use(cors(corsOptions));
 
 // middleware
 app.use(express.json());
